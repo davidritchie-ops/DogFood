@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="DogChow icon">
+  <rect width="512" height="512" rx="96" fill="#2f6f4e"/>
+  <!-- Bowl rim -->
+  <ellipse cx="256" cy="200" rx="170" ry="40" fill="#fafaf7"/>
+  <ellipse cx="256" cy="200" rx="150" ry="28" fill="#e6f1ec"/>
+  <!-- Bowl body -->
+  <path d="M 96 200 Q 100 360 200 400 L 312 400 Q 412 360 416 200 Z" fill="#fafaf7"/>
+  <!-- Kibble (three rounded blobs) -->
+  <circle cx="216" cy="176" r="18" fill="#c98b4a"/>
+  <circle cx="270" cy="180" r="22" fill="#a06b34"/>
+  <circle cx="318" cy="174" r="16" fill="#c98b4a"/>
+  <!-- Paw print on the bowl -->
+  <g fill="#2f6f4e" opacity="0.85">
+    <ellipse cx="256" cy="320" rx="32" ry="26"/>
+    <ellipse cx="208" cy="282" rx="14" ry="18"/>
+    <ellipse cx="240" cy="266" rx="14" ry="18"/>
+    <ellipse cx="272" cy="266" rx="14" ry="18"/>
+    <ellipse cx="304" cy="282" rx="14" ry="18"/>
+  </g>
+</svg>

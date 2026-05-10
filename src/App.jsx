@@ -7,7 +7,12 @@ import Swaps from './components/Swaps.jsx';
 import { proteinFromWeight, scaleRecipe } from './calculate.js';
 
 const STORAGE_KEY = 'dogchow:input';
-const DEFAULT_STATE = { mode: 'weight', value: 55, losingWeight: false };
+const DEFAULT_STATE = {
+  mode: 'weight',
+  weightLbs: 55,
+  batchProteinG: 1600,
+  losingWeight: false,
+};
 
 function loadInitial() {
   try {
@@ -27,12 +32,19 @@ export default function App() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [state]);
 
-  const proteinGrams = useMemo(() => {
-    const value = Number(state.value) || 0;
-    return state.mode === 'weight' ? proteinFromWeight(value) : value;
-  }, [state.mode, state.value]);
+  const dailyProtein = useMemo(
+    () => proteinFromWeight(Number(state.weightLbs) || 0),
+    [state.weightLbs]
+  );
+  const dailyRecipe = useMemo(() => scaleRecipe(dailyProtein), [dailyProtein]);
 
-  const recipe = useMemo(() => scaleRecipe(proteinGrams), [proteinGrams]);
+  const batchRecipe = useMemo(() => {
+    if (state.mode !== 'protein') return null;
+    return scaleRecipe(Number(state.batchProteinG) || 0);
+  }, [state.mode, state.batchProteinG]);
+
+  const daysSupply =
+    batchRecipe && dailyProtein > 0 ? batchRecipe.protein / dailyProtein : null;
 
   return (
     <main className="app">
@@ -43,11 +55,17 @@ export default function App() {
 
       <InputPanel
         mode={state.mode}
-        value={state.value}
+        weightLbs={state.weightLbs}
+        batchProteinG={state.batchProteinG}
         onChange={(patch) => setState((s) => ({ ...s, ...patch }))}
       />
 
-      <Results recipe={recipe} losingWeight={state.losingWeight} />
+      <Results
+        dailyRecipe={dailyRecipe}
+        batchRecipe={batchRecipe}
+        daysSupply={daysSupply}
+        losingWeight={state.losingWeight}
+      />
 
       <OilToggle
         losingWeight={state.losingWeight}

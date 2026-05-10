@@ -1,5 +1,8 @@
-export default function InputPanel({ mode, value, onChange }) {
+export default function InputPanel({ mode, weightLbs, batchProteinG, onChange }) {
   const isWeight = mode === 'weight';
+  const value = isWeight ? weightLbs : batchProteinG;
+  const field = isWeight ? 'weightLbs' : 'batchProteinG';
+
   return (
     <section className="card">
       <div className="mode-toggle" role="tablist" aria-label="Input mode">
@@ -8,7 +11,7 @@ export default function InputPanel({ mode, value, onChange }) {
           role="tab"
           aria-selected={isWeight}
           className={isWeight ? 'mode-toggle__btn mode-toggle__btn--active' : 'mode-toggle__btn'}
-          onClick={() => onChange({ mode: 'weight', value: 55 })}
+          onClick={() => onChange({ mode: 'weight' })}
         >
           Dog weight
         </button>
@@ -17,7 +20,7 @@ export default function InputPanel({ mode, value, onChange }) {
           role="tab"
           aria-selected={!isWeight}
           className={!isWeight ? 'mode-toggle__btn mode-toggle__btn--active' : 'mode-toggle__btn'}
-          onClick={() => onChange({ mode: 'protein', value: 200 })}
+          onClick={() => onChange({ mode: 'protein' })}
         >
           Cooked protein
         </button>
@@ -25,7 +28,7 @@ export default function InputPanel({ mode, value, onChange }) {
 
       <label className="field">
         <span className="field__label">
-          {isWeight ? "Buddy's weight" : 'Cooked protein on hand'}
+          {isWeight ? "Buddy's weight" : 'Cooked protein on hand (batch)'}
         </span>
         <div className="field__input-row">
           <input
@@ -34,7 +37,7 @@ export default function InputPanel({ mode, value, onChange }) {
             min="0"
             step={isWeight ? '1' : '5'}
             value={value}
-            onChange={(e) => onChange({ value: e.target.value })}
+            onChange={(e) => onChange({ [field]: e.target.value })}
           />
           <span className="field__unit">{isWeight ? 'lbs' : 'g'}</span>
         </div>
